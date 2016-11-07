@@ -1,0 +1,23 @@
+{
+    "name": "vip9008/yii2-googleuser",
+    "description": "Enables signing in using a google account.",
+    "type": "yii2-extension",
+    "keywords": ["yii2", "module", "google", "user", "vip9008"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hussain Almoamen",
+            "email": "Almoamen.M.H@gmail.com",
+            "homepage": "https://github.com/vip9008",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "vip9008/yii2-googleapisclient": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "vip9008\\googleuser\\": ""
+        }
+    }
+}
