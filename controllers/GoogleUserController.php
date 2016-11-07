@@ -3,17 +3,18 @@
 namespace vip9008\googleuser\controllers;
 
 use Yii;
+use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\authclient\clients\GoogleOAuth;
+use yii\authclient\clients\Google;
 use vip9008\googleapisclient\auth\OAuth2;
 use vip9008\googleapisclient\Client;
 use vip9008\googleuser\models\LoginForm;
 
-class UserController extends Controller {
+class GoogleUserController extends Controller {
     public function behaviors()
     {
         return [
@@ -68,29 +69,30 @@ class UserController extends Controller {
         }
 
         // GOOGLE API APP TOKENS
-        global $GOOGLE_API_APP;
+        $apiTokens = $this->module->apiTokens;
 
-        $redirect_uri = Url::to(['g-user/sign-in'], true);
+        $redirect_uri = Url::to(['sign-in'], true);
 
         $session = Yii::$app->session;
         $request = Yii::$app->request;
 
-        // create GoogleOAuth object
-        $google = new GoogleOAuth([
+        // create Google OAuth object
+        $google = new Google([
             'scope' => implode(' ', [
                 'openid',
                 'profile',
                 'email',
             ]),
-            'clientId' => $GOOGLE_API_APP['clientId'],
-            'clientSecret' => $GOOGLE_API_APP['clientSecret'],
+            'validateAuthState' => false,
+            'clientId' => $apiTokens['clientId'],
+            'clientSecret' => $apiTokens['clientSecret'],
             'authUrl' => 'https://accounts.google.com/o/oauth2/v2/auth',
             'tokenUrl' => 'https://www.googleapis.com/oauth2/v4/token',
         ]);
 
         if ($request->get('code', false)) {
             if ($session['state'] != $request->get('state')) {
-                echo 'INVALID STATE PARAMETER 401';
+                throw new HttpException(400, 'Invalid state parameter.');
             } else {
                 unset($session['state']);
 
@@ -102,13 +104,13 @@ class UserController extends Controller {
                 $json->token_type = $auth->params['token_type'];
 
                 $api_client = new Client();
-                $api_client->setClientId($GOOGLE_API_APP['clientId']);
-                $api_client->setClientSecret($GOOGLE_API_APP['clientSecret']);
+                $api_client->setClientId($apiTokens['clientId']);
+                $api_client->setClientSecret($apiTokens['clientSecret']);
                 $api_client->setRedirectUri($redirect_uri);
 
                 $user_data = $this->decodeData($api_client, $auth->params['id_token']);
 
-                if ($user_data['payload']['email_verified'] && $user_data['payload']['aud'] == $GOOGLE_API_APP['clientId']) {
+                if ($user_data['payload']['email_verified'] && $user_data['payload']['aud'] == $apiTokens['clientId']) {
                     // user authenticated successfully
                     $json->account = $user_data['payload']['iss'];
                     $json->email = $user_data['payload']['email'];
@@ -125,7 +127,7 @@ class UserController extends Controller {
                     $model->data = Json::encode($json);
 
                     if ($model->login()) {
-                        return $this->goBack();
+                        // return $this->goBack();
                     } else {
                         // login error
                         Yii::$app->getSession()->setFlash('error', 'Failed while registering user login.');

@@ -47,7 +47,7 @@ class Bootstrap implements BootstrapInterface
 
             Yii::$container->set('yii\web\User', [
                 'enableAutoLogin' => true,
-                'loginUrl'        => ['googleuser/user/sign-in'],
+                'loginUrl'        => ['user/google-user/sign-in'],
                 'identityClass'   => $module->modelMap['User'],
             ]);
 

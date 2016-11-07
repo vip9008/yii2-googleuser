@@ -29,6 +29,8 @@ class Module extends BaseModule
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
-        '<action:(index|sign-in|sign-out)>' => 'googleuser/user/<action>',
+        '<action:(index|sign-in|sign-out)>' => 'google-user/<action>',
     ];
+
+    public $apiTokens = [];
 }
