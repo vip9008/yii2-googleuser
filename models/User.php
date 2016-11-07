@@ -73,6 +73,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->access_token;
     }
 
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
     public function getProfile()
     {
         $profile = Json::decode($this->data);
