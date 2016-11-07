@@ -1,4 +1,5 @@
 <?php
+
 namespace vip9008\googleuser\controllers;
 
 use Yii;
@@ -69,7 +70,7 @@ class UserController extends Controller {
         // GOOGLE API APP TOKENS
         global $GOOGLE_API_APP;
 
-        $redirect_uri = Url::to(['user/sign-in'], true);
+        $redirect_uri = Url::to(['g-user/sign-in'], true);
 
         $session = Yii::$app->session;
         $request = Yii::$app->request;
