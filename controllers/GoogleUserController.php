@@ -54,7 +54,8 @@ class GoogleUserController extends Controller {
 
     public function actionIndex()
     {
-        return $this->redirect(['sign-in']);
+        $this->layout = 'plain';
+        return $this->render('sign-in');
     }
 
     public function actionSignOut()

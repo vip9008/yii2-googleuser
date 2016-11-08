@@ -34,20 +34,11 @@ class Bootstrap implements BootstrapInterface
                 Yii::$container->set($class, $definition);
                 $modelName = is_array($definition) ? $definition['class'] : $definition;
                 $module->modelMap[$name] = $modelName;
-                // if (in_array($name, ['User'])) {
-                //     Yii::$container->set($name . 'Query', function () use ($modelName) {
-                //         return $modelName::find();
-                //     });
-                // }
             }
-
-            // Yii::$container->setSingleton(Finder::className(), [
-            //     'userQuery' => Yii::$container->get('UserQuery'),
-            // ]);
 
             Yii::$container->set('yii\web\User', [
                 'enableAutoLogin' => true,
-                'loginUrl'        => ['user/google-user/sign-in'],
+                'loginUrl'        => ['user/google-user/index'],
                 'identityClass'   => $module->modelMap['User'],
             ]);
 
