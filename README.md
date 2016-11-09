@@ -47,6 +47,12 @@ Then add the module to your configuration file  :
 Available actions
 -----------------
 
-```/user/index```
-```/user/sign-in```
-```/user/sign-out```
+```
+/user/index
+```
+```
+/user/sign-in
+```
+```
+/user/sign-out
+```
