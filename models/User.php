@@ -81,8 +81,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getProfile()
     {
         $profile = Json::decode($this->data);
-        unset($this->profile['access_token']);
-        unset($this->profile['token_type']);
+        unset($profile['access_token'], $profile['token_type']);
 
         return $profile;
     }
