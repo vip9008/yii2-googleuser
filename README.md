@@ -21,17 +21,11 @@ or add
 
 to the require section of your `composer.json` file.
 
-Then run the migration command to create google user table:
-
-```
-php yii migrate/up --migrationPath=@vendor/vip9008/yii2-googleuser/migrations
-```
 
 Usage
 -----
 
 Once the extension is installed, simply create web api credentials at [developers console](https://console.developers.google.com/)
-<<<<<<< HEAD
 and add your sign-in link to Authorized redirect URIs ([link_to_your_yii2_app]user/sign-in).
 Then add the module to your configuration file  :
 
@@ -77,7 +71,6 @@ Available actions
 -----------------
 
 ```
->>>>>>> origin/master
 /user/index
 ```
 ```
